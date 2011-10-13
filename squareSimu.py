@@ -11,6 +11,7 @@ pert = 0.4
 radius = 0.01
 WIDTH = 1.0
 HEIGHT = 1.0
+N = n * n
 STEPX = WIDTH / n
 STEPY = HEIGHT / n
 
@@ -21,8 +22,19 @@ def getNetwork():
     for j in range(n):
       [coorx, coory] = perturb(i, j)
       G.add_node(i*n+j, x = coorx, y = coory)
+  for i in range(N):
+    for j in range(N):
+	  if (euDist2(G, i, j) <= radius * radius):
+	    G.add_edge(i, j)
   return G
 
+def euDist2(G, i, j):
+  x1 = G.node[i]['x']
+  y1 = G.node[i]['y']
+  x2 = G.node[j]['x']
+  y2 = G.node[j]['x']
+  return (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2)
+  
 # Generate the coordinate for node with index i*n+j
 def perturb(i, j):
   x = STEPX/2 + i*STEPX
